@@ -10,8 +10,23 @@ thirdOptionBtn = null
 gameColorBox = null
 
 
-function getRandomInt(max) {
-    return Math.floor(Math.random() * max)
+function randomColor() {
+    color = ""
+    for (i = 0; i < 6; ++i) {
+        indice = Math.floor(Math.random() * COLOR_CHARS.length)
+        color += COLOR_CHARS[indice]
+    }
+    return "#" + color
+}
+
+function setButtonTextOption(color1, color2, color3) {
+    firstOptionBtn.innerHTML = color1
+    secondOptionBtn.innerHTML = color2
+    thirdOptionBtn.innerHTML = color3
+}
+
+function updateScore(correct, total) {
+    document.getElementById("score").innerHTML = `Score: ${correct}/${total}`
 }
 
 function loadColor() {
@@ -30,12 +45,6 @@ function loadColor() {
     gameColorBox.style.backgroundColor = correctColor
 }
 
-function setButtonTextOption(color1, color2, color3) {
-    firstOptionBtn.innerHTML = color1
-    secondOptionBtn.innerHTML = color2
-    thirdOptionBtn.innerHTML = color3
-}
-
 function selectChoice(event) {
     chosen_option = document.getElementById(event.target.id).innerHTML
     
@@ -46,19 +55,6 @@ function selectChoice(event) {
     total_guesses += 1
     updateScore(correct_guesses, total_guesses)
     loadColor()
-}
-
-function randomColor() {
-    color = ""
-    for (i = 0; i < 6; ++i) {
-        indice = Math.floor(Math.random() * COLOR_CHARS.length)
-        color += COLOR_CHARS[indice]
-    }
-    return "#" + color
-}
-
-function updateScore(correct, total) {
-    document.getElementById("score").innerHTML = `Score: ${correct}/${total}`
 }
 
 window.onload = () => {
