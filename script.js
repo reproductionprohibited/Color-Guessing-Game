@@ -23,46 +23,46 @@ const CSS_COLORS = [
     '#2E8B57', '#FFF5EE', '#A0522D', '#C0C0C0', '#87CEEB', '#6A5ACD',
     '#708090', '#708090', '#FFFAFA', '#00FF7F', '#4682B4', '#D2B48C',
     '#008080', '#D8BFD8', '#FF6347', '#40E0D0', '#EE82EE', '#F5DEB3',
-    '#FFFFFF', '#F5F5F5', '#FFFF00', '#9ACD32'
+    '#FFFFFF', '#F5F5F5', '#FFFF00', '#9ACD32',
 ]
 
 correct_guesses = 0
 total_guesses = 0
 correctColor = ""
 
+firstOptionBtn = null
+secondOptionBtn = null
+thirdOptionBtn = null
+gameColorBox = null
 
-const getRandomInt = (max) => {
+
+function getRandomInt(max) {
     return Math.floor(Math.random() * max)
 }
 
-const loadChallenge = () => {
+function loadColor() {
     const [color1, color2, color3] = randomizeElements(CSS_COLORS, 3)
-
+    setButtonColorText(color1, color2, color3)
+    
     correctColorOptionIndice = Math.floor(Math.random() * 3)
 
     if (correctColorOptionIndice == 0) {
-        document.getElementById("first-option").innerHTML = color1
-        document.getElementById("second-option").innerHTML = color2
-        document.getElementById("third-option").innerHTML = color3
-
         correctColor = color1
     } else if (correctColorOptionIndice == 1) {
-        document.getElementById("first-option").innerHTML = color1
-        document.getElementById("second-option").innerHTML = color2
-        document.getElementById("third-option").innerHTML = color3
-
         correctColor = color2
     } else if (correctColorOptionIndice == 2) {
-        document.getElementById("first-option").innerHTML = color1
-        document.getElementById("second-option").innerHTML = color2
-        document.getElementById("third-option").innerHTML = color3
-
         correctColor = color3
     }
-    document.getElementById("guess-card").style.backgroundColor = correctColor
+    gameColorBox.style.backgroundColor = correctColor
 }
 
-const selectChoice = (event) => {
+function setButtonColorText(color1, color2, color3) {
+    firstOptionBtn.innerHTML = color1
+    secondOptionBtn.innerHTML = color2
+    thirdOptionBtn.innerHTML = color3
+}
+
+function selectChoice(event) {
     chosen_option = document.getElementById(event.target.id).innerHTML
     
     if (chosen_option == correctColor) {
@@ -71,13 +71,14 @@ const selectChoice = (event) => {
 
     total_guesses += 1
     updateScore(correct_guesses, total_guesses)
-    loadChallenge()
+    loadColor()
 }
 
-const randomizeElements = (array, count) => {
+function randomizeElements(array, count) {
     if (count > array.length) {
-        throw new Error('Array size cannot be smaller than expected random numbers count.');
+        throw new RangeError("Array size cannot be smaller than expected random numbers count.");
     }
+
     const result = [];
     const guardian = new Set();
     while (result.length < count) {
@@ -92,10 +93,15 @@ const randomizeElements = (array, count) => {
     return result;
 };
 
-const updateScore = (correct, total) => {
+function updateScore(correct, total) {
     document.getElementById("score").innerHTML = `Score: ${correct}/${total}`
 }
 
 window.onload = () => {
-    loadChallenge()
+    firstOptionBtn = document.getElementById("first-option")
+    secondOptionBtn = document.getElementById("second-option")
+    thirdOptionBtn = document.getElementById("third-option")
+    gameColorBox = document.getElementById("guess-card")
+
+    loadColor()
 }
