@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap" rel="stylesheet">
+  <script type="text/javascript" language="javascript" src="script.js"></script>
+  <title>Color Guessing Game</title>
+</head>
+<body>
+  <h1>
+    Guess the color
+  </h1>
+  <div class="center-horizontal-vertical">
+    <h2>
+      <i>What color is this?</i>
+    </h2>
+    <div class="card" id="guess-card">
+    </div>
+    <div class="button-row">
+      <button id="first-option" onclick="selectChoice(event)">item1</button>
+      <button id="second-option" onclick="selectChoice(event)">item2</button>
+      <button id="third-option" onclick="selectChoice(event)">item3</button>
+    </div>
+    <hr>
+    <h3 id="score">Score: 0/0</h3>
+  </div>  
+</body>
+</html>
