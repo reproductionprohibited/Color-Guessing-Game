@@ -1,67 +1,111 @@
-COLOR_CHARS = "0123456789ABCDEF"
+COLOR_CHARS = "0123456789ABCDEF";
 
-correct_guesses = 0
-total_guesses = 0
-correctColor = ""
+const BUTTON_COLORS = {
+    ERROR_COLOR: "#FF4D4D",
+    DEFAULT_COLOR: "#5E5DF0",
+    OK_COLOR: "#006600",
+}
 
-firstOptionBtn = null
-secondOptionBtn = null
-thirdOptionBtn = null
-gameColorBox = null
+correctGuesses = 0;
+totalGuesses = 0;
+correctColor = "";
+correctColorOptionIndice = -1;
+
+firstOptionButton = null;
+secondOptionButton = null;
+thirdOptionButton = null;
+gameColorBox = null;
 
 
 function randomColor() {
     color = ""
     for (i = 0; i < 6; ++i) {
-        indice = Math.floor(Math.random() * COLOR_CHARS.length)
-        color += COLOR_CHARS[indice]
+        indice = Math.floor(Math.random() * COLOR_CHARS.length);
+        color += COLOR_CHARS[indice];
     }
-    return "#" + color
+    return "#" + color;
 }
 
 function setButtonTextOption(color1, color2, color3) {
-    firstOptionBtn.innerHTML = color1
-    secondOptionBtn.innerHTML = color2
-    thirdOptionBtn.innerHTML = color3
+    firstOptionButton.innerHTML = color1;
+    secondOptionButton.innerHTML = color2;
+    thirdOptionButton.innerHTML = color3;
 }
 
-function updateScore(correct, total) {
-    document.getElementById("score").innerHTML = `Score: ${correct}/${total}`
+function updateScore() {
+    document.getElementById("score").innerHTML = `Score: ${correctGuesses}/${totalGuesses}`;
 }
 
 function loadColor() {
-    const [color1, color2, color3] = [randomColor(), randomColor(), randomColor()]
-    setButtonTextOption(color1, color2, color3)
-    
-    correctColorOptionIndice = Math.floor(Math.random() * 3)
+    const [color1, color2, color3] = [randomColor(), randomColor(), randomColor()];
+    setButtonTextOption(color1, color2, color3);
+
+    correctColorOptionIndice = Math.floor(Math.random() * 3);
 
     if (correctColorOptionIndice == 0) {
-        correctColor = color1
+        correctColor = color1;
     } else if (correctColorOptionIndice == 1) {
-        correctColor = color2
+        correctColor = color2;
     } else if (correctColorOptionIndice == 2) {
-        correctColor = color3
+        correctColor = color3;
     }
-    gameColorBox.style.backgroundColor = correctColor
+    gameColorBox.style.backgroundColor = correctColor;
 }
 
-function selectChoice(event) {
-    chosen_option = document.getElementById(event.target.id).innerHTML
+function setButtonsColor(color) {
+    firstOptionButton.style.backgroundColor = color;
+    secondOptionButton.style.backgroundColor = color;
+    thirdOptionButton.style.backgroundColor = color;
+}
+
+function getCorrectButton() {
+    if (correctColorOptionIndice == 0) {
+        return firstOptionButton;
+    } else if (correctColorOptionIndice == 1) {
+        return secondOptionButton;
+    }
+    return thirdOptionButton;
+}
+
+function toggleButtonEnableState() {
+    currentState = firstOptionButton.disabled;
+
+    firstOptionButton.disabled = !currentState;
+    secondOptionButton.disabled = !currentState;
+    thirdOptionButton.disabled = !currentState;
+}
+
+function onButtonClick(event) {
+    button = document.getElementById(event.target.id);
+
+    option = button.innerHTML;
+
+    toggleButtonEnableState();
+    setButtonsColor(BUTTON_COLORS.ERROR_COLOR);
+    correctOptionButton = getCorrectButton();
+    correctOptionButton.style.backgroundColor = BUTTON_COLORS.OK_COLOR;
+
+    if (option == correctColor) {
+        correctGuesses += 1;
+    }
+    totalGuesses += 1;
     
-    if (chosen_option == correctColor) {
-        correct_guesses += 1
-    }
+    updateScore();
 
-    total_guesses += 1
-    updateScore(correct_guesses, total_guesses)
-    loadColor()
+    setTimeout(() => {
+        loadColor();
+        setButtonsColor(BUTTON_COLORS.DEFAULT_COLOR);
+        toggleButtonEnableState();
+    }, 1500)
 }
+
+
 
 window.onload = () => {
-    firstOptionBtn = document.getElementById("first-option")
-    secondOptionBtn = document.getElementById("second-option")
-    thirdOptionBtn = document.getElementById("third-option")
-    gameColorBox = document.getElementById("guess-card")
+    firstOptionButton = document.getElementById("first-option");
+    secondOptionButton = document.getElementById("second-option");
+    thirdOptionButton = document.getElementById("third-option");
+    gameColorBox = document.getElementById("guess-card");
 
     loadColor()
 }
