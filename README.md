@@ -6,6 +6,7 @@ Three buttons with options appear on the screen below the colored rectangle ever
 
 This game is infinite. Just have fun and use your math skills to beat the game!
 
+Don't cheat in this game, or a monster will come after you :)
 
 ## Gameplay ##
 ![Alt text](gameplay_screenshot.png)
